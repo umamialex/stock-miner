@@ -83,11 +83,7 @@ date = {
 }
 ```
 
-The keys in `date` correspond to the following range:
-
-`startYear`-`startMonth`-`startDay` to `endDay`-`endMonth`-`endYear`
-
-1997-09-01 to 1997-11-30
+`startYear`-`startMonth`-`startDay` to `endDay`-`endMonth`-`endYear` translates to `1997-09-01` to `1997-11-30`.
 
 #### history
 The `history` list is simply a list of historical dates that should be downloaded
@@ -124,7 +120,7 @@ downloaded.
 
 The default `filing` configuration:
 ```python
-filing = "19970901";
+filing = "19970901"
 ```
 
 ### censor(_String_ f);

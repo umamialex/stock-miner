@@ -229,10 +229,10 @@ def cik(stock, name, count, total):
 
 # Censor Filings
 def censor(f):
-    return re.sub(r'20\d\d', '[YR]', f)
+    return re.sub(r'19\d\d', '[YR]', f)
 
 # Get 10-K and 10-Q Filings
-def tenKQ(stock, name, cik, directory, count, total, force = False):
+def tenKQ(stock, name, cik, filing, directory, count, total, force = False):
     global rep, fix
     q = stock
     qType = True
@@ -244,7 +244,7 @@ def tenKQ(stock, name, cik, directory, count, total, force = False):
             return { 'k' : False, 'q' : False, 'query' : False }
             
     print '# (' + str(count) + '/' + str(total) + ') Searching for Filings using ' + q + '.'
-    url = 'http://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=' + q + '&type=10&dateb=20060301&owner=exclude&count=10'
+    url = 'http://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=' + q + '&type=10&dateb=' + filing + '&owner=exclude&count=10'
     data = urllib2.urlopen(url).read()
 
     kFound = False
@@ -307,7 +307,7 @@ def tenKQ(stock, name, cik, directory, count, total, force = False):
     return { 'k' : kFound, 'q' : qFound, 'query' : qType, 'force' : force }
 
 # Overall process for obtaining filings.
-def filings(stock, name, directory, count, total):
+def filings(stock, name, filing, directory, count, total):
     print '\n# (' + str(count) + '/' + str(total) + ') Performing Filings Lookup for ' + stock + '. '
     query = cik(stock, name, count, total)
     c = query['cik']
@@ -326,7 +326,7 @@ def filings(stock, name, directory, count, total):
         print '# (' + str(count) + '/' + str(total) + ') CIK Lookup Failed. '
         a = False
     
-    r = tenKQ(stock, name, c, directory, count, total)
+    r = tenKQ(stock, name, c, filing, directory, count, total)
     r['certainty'] = a
 
     if not r['k'] and not r['q']:
@@ -408,6 +408,9 @@ def mine():
         { 'day' : 1, 'month' : 9, 'year' : 1992 }
     ]
 
+    # Filings Date Threshold
+    filing = "19970901"
+
     # Iterate through each stock
     count = 1
     total = len(stocks)
@@ -437,7 +440,7 @@ def mine():
         if not l and fHistorical:
             downloadHistorical(stock, history, directory, count, total)
         if not l and fFilings:
-            f = filings(stock, names[count-1], directory, count, total)
+            f = filings(stock, names[count-1], filing, directory, count, total)
             if not f['k'] and not f['q']:
                 badFilings.append(stock)
             else:
