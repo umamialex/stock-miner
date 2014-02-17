@@ -12,8 +12,8 @@ Jump Portfolio Management game](http://jump.bridge-usa.com).
 Please feel free to request any features.  Code contributions are always welcome!
 
 # Mirrors
-[Bitbucket](https://bitbucket.org/bridge-usa/financier) |
-[Github](https://github.com/bridge-usa/financier)
+[Bitbucket](https://bitbucket.org/bridge-usa/stock-miner) |
+[Github](https://github.com/bridge-usa/stock-miner)
 
 # Installation
 ```
